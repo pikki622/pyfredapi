@@ -1,4 +1,5 @@
 """Sphinx configuration."""
+
 import plotly.io as pio
 import sphinx_material
 
@@ -20,19 +21,6 @@ release = __version__
 # The master toctree document.
 master_doc = "index"
 
-# -- General configuration ---------------------------------------------------
-
-extensions = [
-    "sphinx.ext.autodoc",
-    "sphinx.ext.autosummary",
-    "sphinx.ext.napoleon",
-    "sphinx.ext.viewcode",
-    "myst_parser",
-    "nbsphinx",
-    "sphinx_copybutton",
-    "sphinxcontrib.autodoc_pydantic",
-]
-
 nbsphinx_execute = "never"
 autosummary_generate = True
 autodoc_pydantic_model_show_config_summary = False
@@ -51,10 +39,17 @@ autodoc_default_options = {
 # Make function signatures readable
 autodoc_typehints = "description"
 
-# -- HTML theme settings ------------------------------------------------
-
-# Material theme options
-extensions.append("sphinx_material")
+extensions = [
+    "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
+    "sphinx.ext.napoleon",
+    "sphinx.ext.viewcode",
+    "myst_parser",
+    "nbsphinx",
+    "sphinx_copybutton",
+    "sphinxcontrib.autodoc_pydantic",
+    "sphinx_material",
+]
 html_theme_path = sphinx_material.html_theme_path()
 html_context = sphinx_material.get_html_context()
 html_theme = "sphinx_material"

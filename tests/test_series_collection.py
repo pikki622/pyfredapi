@@ -37,7 +37,7 @@ def test_drop_series_err():
 def test_keep_realtime_cols():
     sc = SeriesCollection(series_id="CPIAUCSL", drop_realtime=False)
     df_cols = set(sc.CPIAUCSL.df.columns.to_list())
-    assert set(("date", "CPIAUCSL", "realtime_start", "realtime_end")) == df_cols
+    assert {"date", "CPIAUCSL", "realtime_start", "realtime_end"} == df_cols
 
 
 def parse_cpi_title(title: str) -> str:
@@ -59,7 +59,7 @@ def parse_cpi_title(title: str) -> str:
 def test_rename_on_add(rename):
     sc = SeriesCollection(series_id="CPIAUCSL", rename=rename)
     df_cols = set(sc.CPIAUCSL.df.columns.to_list())
-    assert set(("date", "cpi_all_items")) == df_cols
+    assert {"date", "cpi_all_items"} == df_cols
 
 
 @pytest.mark.vcr()
@@ -76,7 +76,7 @@ def test_rename_after_add(rename):
     sc = SeriesCollection(series_id=["CPIAUCSL"])
     sc.rename_series(rename=rename)
     df_cols = set(sc.CPIAUCSL.df.columns.to_list())
-    assert set(("date", "cpi_all_items")) == df_cols
+    assert {"date", "cpi_all_items"} == df_cols
 
 
 @pytest.mark.vcr()
@@ -84,8 +84,8 @@ def test_rename_partial():
     rename = {"CPIAUCSL": "cpi_all_items"}
     sc = SeriesCollection(series_id=["CPIAUCSL", "CPILFESL"])
     sc.rename_series(rename=rename)
-    assert set(("date", "cpi_all_items")) == set(sc.CPIAUCSL.df.columns.to_list())
-    assert set(("date", "CPILFESL")) == set(sc.CPILFESL.df.columns.to_list())
+    assert {"date", "cpi_all_items"} == set(sc.CPIAUCSL.df.columns.to_list())
+    assert {"date", "CPILFESL"} == set(sc.CPILFESL.df.columns.to_list())
 
 
 @pytest.mark.vcr()
@@ -95,7 +95,7 @@ def test_merge_long():
     long_df = sc.merge_long()
     assert isinstance(long_df, pd.DataFrame)
     cols = set(long_df.columns.to_list())
-    assert set(("date", "value", "series")) == cols
+    assert {"date", "value", "series"} == cols
     assert set(series) == set(long_df.series.tolist())
 
 
@@ -107,7 +107,7 @@ def test_merge_asof():
     assert isinstance(asof_df, pd.DataFrame)
     cols = set(asof_df.columns.to_list())
     assert set(["date"] + series) == cols
-    assert set(series) == set([c for c in asof_df.columns.tolist() if c != "date"])
+    assert set(series) == {c for c in asof_df.columns.tolist() if c != "date"}
 
 
 @pytest.mark.vcr()
@@ -118,7 +118,7 @@ def test_merge_wide():
     assert isinstance(wide_df, pd.DataFrame)
     cols = set(wide_df.columns.to_list())
     assert set(["date"] + series) == cols
-    assert set(series) == set([c for c in wide_df.columns.tolist() if c != "date"])
+    assert set(series) == {c for c in wide_df.columns.tolist() if c != "date"}
 
 
 @pytest.mark.vcr()

@@ -169,14 +169,13 @@ def get_geoseries(
 
     geoseries_info = get_geoseries_info(series_id=series_id)
 
-    if return_format == ReturnFormat.pandas:
-        dfs = []
-        for date, data in response["meta"]["data"].items():
-            t = pd.DataFrame.from_dict(data)
-            t["date"] = date
-            t["date"] = pd.to_datetime(t["date"])
-            dfs.append(t)
-
-        return GeoseriesData(info=geoseries_info, data=pd.concat(dfs))
-    else:
+    if return_format != ReturnFormat.pandas:
         return GeoseriesData(info=geoseries_info, data=response["meta"]["data"])
+    dfs = []
+    for date, data in response["meta"]["data"].items():
+        t = pd.DataFrame.from_dict(data)
+        t["date"] = date
+        t["date"] = pd.to_datetime(t["date"])
+        dfs.append(t)
+
+    return GeoseriesData(info=geoseries_info, data=pd.concat(dfs))

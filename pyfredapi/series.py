@@ -229,8 +229,7 @@ def get_series(
     )
 
     if return_format == ReturnFormat.pandas:
-        pdf = _convert_to_pandas(response["observations"])
-        return pdf
+        return _convert_to_pandas(response["observations"])
     return response["observations"]
 
 
