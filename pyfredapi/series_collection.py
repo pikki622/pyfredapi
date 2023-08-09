@@ -108,7 +108,7 @@ def _rename_series(
 
     if isinstance(rename, dict):
         series_name = rename.get(series_data.info.id, None)
-    elif callable(rename):
+    else:
         series_name = rename(series_data.info.title)
 
     if series_name is None or rename is None:
@@ -195,8 +195,7 @@ class SeriesCollection:
         self.remove(key)
 
     def __iter__(self):
-        for series_info in self._data:
-            yield series_info
+        yield from self._data
 
     def __len__(self):
         return len(self._data)
